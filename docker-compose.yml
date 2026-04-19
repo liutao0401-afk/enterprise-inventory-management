@@ -1,0 +1,121 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: eims-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: eims2026!Root
+      MYSQL_DATABASE: eims_db
+      MYSQL_USER: eims_user
+      MYSQL_PASSWORD: eims2026!User
+      TZ: Asia/Shanghai
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - eims-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: eims-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - eims-net
+
+  minio:
+    image: minio/minio:latest
+    container_name: eims-minio
+    environment:
+      MINIO_ROOT_USER: eimsadmin
+      MINIO_ROOT_PASSWORD: eims2026!Minio
+      MINIO_DEFAULT_BUCKET: eims
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - eims-net
+
+  # RocketMQ NameServer
+  rocketmq-namesrv:
+    image: apache/rocketmq:5.1.5
+    container_name: eims-rocketmq-namesrv
+    environment:
+      JAVA_OPTS: -Xms512m -Xmx512m
+    ports:
+      - "9876:9876"
+    volumes:
+      - rocketmq_data:/home/rocketmq/namesrv
+    command: namesrv
+    networks:
+      - eims-net
+
+  # RocketMQ Broker
+  rocketmq-broker:
+    image: apache/rocketmq:5.1.5
+    container_name: eims-rocketmq-broker
+    environment:
+      JAVA_OPTS: -Xms1g -Xmx1g
+    ports:
+      - "10911:10911"
+      - "10912:10912"
+    volumes:
+      - rocketmq_data:/home/rocketmq/broker
+    command: broker --namesrv-server-addr rocketmq-namesrv:9876 --brokerName rmq-broker
+    depends_on:
+      - rocketmq-namesrv
+    networks:
+      - eims-net
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: eims-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - eims-net
+
+  # Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: eims-grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: eims2026!Admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - eims-net
+
+volumes:
+  mysql_data:
+  redis_data:
+  minio_data:
+  rocketmq_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  eims-net:
+    driver: bridge
