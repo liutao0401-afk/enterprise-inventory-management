@@ -1,41 +1,20 @@
 server:
   port: 8080
   servlet:
-    context-path: /eims
+    context-path: /api
 
 spring:
   application:
     name: eims-backend
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/eims_db?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
-    username: eims_user
-    password: eims2026!User
-    hikari:
-      minimum-idle: 5
-      maximum-pool-size: 20
-      connection-timeout: 30000
-      idle-timeout: 600000
-      max-lifetime: 1800000
-
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      password: ""
-      database: 0
-      timeout: 10000ms
-      lettuce:
-        pool:
-          max-active: 16
-          max-idle: 8
-          min-idle: 4
-
-  servlet:
-    multipart:
-      max-file-size: 50MB
-      max-request-size: 100MB
+    url: jdbc:mysql://localhost:3306/eims?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: root123
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
 
 mybatis-plus:
   configuration:
@@ -47,23 +26,11 @@ mybatis-plus:
       logic-delete-field: deleted
       logic-delete-value: 1
       logic-not-delete-value: 0
-  mapper-locations: classpath*:/mapper/**/*.xml
 
-rocketmq:
-  name-server: localhost:9876
-  broker:
-    address: localhost:10911
+jwt:
+  secret: eims-secret-key-2026-enterprise-inventory-management-system
+  expiration: 86400000
 
-minio:
-  endpoint: http://localhost:9000
-  access-key: eimsadmin
-  secret-key: eims2026!Minio
-  bucket: eims
-
-eims:
-  alert:
-    storm-window-hours: 4
-    max-alert-per-window: 1
-  import:
-    batch-size: 1000
-    async-thread-pool-size: 4
+logging:
+  level:
+    com.eims: debug
