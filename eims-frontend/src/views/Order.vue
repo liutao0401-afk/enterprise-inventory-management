@@ -31,18 +31,21 @@
         <el-table-column label="操作" width="200" fixed="right">
           <template #default="{ row }">
             <el-button link type="primary" @click="handleView(row)">查看</el-button>
-            <template v-if="row.status === 'DRAFT'">
-              <el-button link type="success" @click="handleConfirm(row)">确认</el-button>
-              <el-button link type="danger" @click="handleCancel(row)">取消</el-button>
-            </template>
+            <el-button v-if="row.status === 'DRAFT'" link type="success" @click="handleConfirm(row)">确认</el-button>
+            <el-button v-if="row.status === 'DRAFT'" link type="danger" @click="handleCancel(row)">取消</el-button>
           </template>
         </el-table-column>
       </el-table>
 
       <el-pagination
-        v-model:current-page="page" v-model:page-size="pageSize" :total="total"
-        :page-sizes="[10, 20, 50]" layout="total, sizes, prev, pager, next"
-        @size-change="loadData" @current-change="loadData" style="margin-top: 20px;"
+        v-model:current-page="page"
+        v-model:page-size="pageSize"
+        :total="total"
+        :page-sizes="[10, 20, 50]"
+        layout="total, sizes, prev, pager, next"
+        @size-change="loadData"
+        @current-change="loadData"
+        style="margin-top: 20px;"
       />
     </el-card>
 
@@ -61,14 +64,14 @@
               <el-date-picker v-model="form.expectedDate" type="date" value-format="YYYY-MM-DD" style="width: 100%;" :disabled="isView" />
             </el-form-item>
           </el-col>
-        </el-form>
+        </el-row>
         <el-form-item label="备注">
           <el-input v-model="form.remark" :disabled="isView" />
         </el-form-item>
 
         <el-divider v-if="!isView">订单明细</el-divider>
 
-        <template v-if="!isView">
+        <div v-if="!isView">
           <div v-for="(item, index) in items" :key="index" class="item-row">
             <el-select v-model="item.materialId" placeholder="物资" style="width: 200px;" filterable>
               <el-option v-for="m in materialList" :key="m.id" :label="`${m.code} - ${m.name}`" :value="m.id" />
@@ -78,9 +81,9 @@
             <el-button type="danger" @click="removeItem(index)" :disabled="items.length <= 1">删除</el-button>
           </div>
           <el-button type="primary" plain @click="addItem" style="margin-top: 10px;">添加物资</el-button>
-        </template>
+        </div>
 
-        <template v-else>
+        <div v-else>
           <el-table :data="viewItems" stripe size="small">
             <el-table-column label="物资" min-width="200">
               <template #default="{ row }">
@@ -95,16 +98,17 @@
               <template #default="{ row }">¥{{ row.totalPrice?.toFixed(2) }}</template>
             </el-table-column>
           </el-table>
-        </template>
+        </div>
       </el-form>
+
       <template #footer>
-        <template v-if="!isView">
+        <div v-if="!isView">
           <el-button @click="dialogVisible = false">取消</el-button>
           <el-button type="primary" @click="handleSubmit">创建订单</el-button>
-        </template>
-        <template v-else>
+        </div>
+        <div v-else>
           <el-button @click="dialogVisible = false">关闭</el-button>
-        </template>
+        </div>
       </template>
     </el-dialog>
   </div>

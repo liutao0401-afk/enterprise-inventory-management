@@ -1,0 +1,1 @@
+import{r}from"./request-Cz_k180i.js";const u={list(e){return r.get("/supplier/list",{params:e})},all(){return r.get("/supplier/all")},get(e){return r.get(`/supplier/${e}`)},create(e){return r.post("/supplier",e)},update(e,t){return r.put(`/supplier/${e}`,t)},delete(e){return r.delete(`/supplier/${e}`)}};export{u as s};

@@ -1,0 +1,1 @@
+import{r as t}from"./request-Cz_k180i.js";const a={list(){return t.get("/category/list")},tree(){return t.get("/category/tree")},get(e){return t.get(`/category/${e}`)},create(e){return t.post("/category",e)},update(e,r){return t.put(`/category/${e}`,r)},delete(e){return t.delete(`/category/${e}`)}};export{a as c};

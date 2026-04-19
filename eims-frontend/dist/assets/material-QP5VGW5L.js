@@ -1,0 +1,1 @@
+import{r as e}from"./request-Cz_k180i.js";const l={list(t){return e.get("/material/list",{params:t})},all(){return e.get("/material/all")},get(t){return e.get(`/material/${t}`)},create(t){return e.post("/material",t)},update(t,r){return e.put(`/material/${t}`,r)},delete(t){return e.delete(`/material/${t}`)},lowStock(){return e.get("/material/low-stock")}};export{l as m};

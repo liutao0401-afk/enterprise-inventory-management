@@ -1,0 +1,1 @@
+import{r as e}from"./request-Cz_k180i.js";const n={list(r){return e.get("/order/list",{params:r})},get(r){return e.get(`/order/${r}`)},items(r){return e.get(`/order/${r}/items`)},create(r){return e.post("/order",r)},addItems(r,t){return e.post(`/order/${r}/items`,t)},confirm(r){return e.put(`/order/${r}/confirm`)},cancel(r){return e.put(`/order/${r}/cancel`)}};export{n as o};
