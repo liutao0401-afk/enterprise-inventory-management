@@ -65,6 +65,12 @@ const routes = [
         name: 'QC',
         component: () => import('../views/QC.vue'),
         meta: { title: '质检管理' }
+      },
+      {
+        path: 'settings',
+        name: 'Settings',
+        component: () => import('../views/Settings.vue'),
+        meta: { title: '系统设置' }
       }
     ]
   }
