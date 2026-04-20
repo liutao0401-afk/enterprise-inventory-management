@@ -1,7 +1,6 @@
 package com.eims.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.eims.config.AiConfig;
 import com.eims.entity.Material;
 import com.eims.entity.NotificationConfig;
 import com.eims.repository.MaterialRepository;
@@ -9,6 +8,7 @@ import com.eims.repository.NotificationConfigRepository;
 import com.eims.service.AlertService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -24,18 +24,12 @@ public class AlertServiceImpl implements AlertService {
 
     private final MaterialRepository materialRepository;
     private final NotificationConfigRepository notificationConfigRepository;
-    private final AiConfig aiConfig;
     private final RestTemplate restTemplate = new RestTemplate();
 
-    // 预警风暴保护：4小时内不重复预警
-    private static final long STORM_PROTECTION_SECONDS = 4 * 60 * 60;
-
     public AlertServiceImpl(MaterialRepository materialRepository,
-                          NotificationConfigRepository notificationConfigRepository,
-                          AiConfig aiConfig) {
+                          NotificationConfigRepository notificationConfigRepository) {
         this.materialRepository = materialRepository;
         this.notificationConfigRepository = notificationConfigRepository;
-        this.aiConfig = aiConfig;
     }
 
     @Override
