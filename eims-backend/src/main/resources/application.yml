@@ -31,6 +31,14 @@ jwt:
   secret: eims-secret-key-2026-enterprise-inventory-management-system
   expiration: 86400000
 
+# AI配置
+ai:
+  enabled: false
+  provider: MINIMAX
+  api-key: ${AI_API_KEY:}
+  api-endpoint: https://api.minimax.chat/v1
+  model: MiniMax-01
+
 logging:
   level:
     com.eims: debug
