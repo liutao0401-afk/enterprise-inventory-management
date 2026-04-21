@@ -71,6 +71,24 @@ const routes = [
         name: 'Settings',
         component: () => import('../views/Settings.vue'),
         meta: { title: '系统设置' }
+      },
+      {
+        path: 'alert',
+        name: 'Alert',
+        component: () => import('../views/Alert.vue'),
+        meta: { title: '预警管理' }
+      },
+      {
+        path: 'import',
+        name: 'Import',
+        component: () => import('../views/Import.vue'),
+        meta: { title: '数据导入' }
+      },
+      {
+        path: 'report',
+        name: 'Report',
+        component: () => import('../views/Report.vue'),
+        meta: { title: '报表中心' }
       }
     ]
   }

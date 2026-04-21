@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/import")
+@RequestMapping("/import")
 public class ImportController {
 
     @Autowired

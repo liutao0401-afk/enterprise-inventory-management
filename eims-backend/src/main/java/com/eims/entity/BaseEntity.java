@@ -11,6 +11,13 @@ public class BaseEntity {
     private Long id;
 
     @TableField(fill = FieldFill.INSERT)
+    private Long tenantId = 1L;
+
+    @TableLogic
+    @TableField(fill = FieldFill.INSERT)
+    private Integer deleted = 0;
+
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)

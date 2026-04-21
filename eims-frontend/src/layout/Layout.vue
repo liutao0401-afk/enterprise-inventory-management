@@ -55,6 +55,21 @@
           <template #title>质检管理</template>
         </el-menu-item>
 
+        <el-menu-item index="/alert">
+          <el-icon><Bell /></el-icon>
+          <template #title>预警管理</template>
+        </el-menu-item>
+
+        <el-menu-item index="/report">
+          <el-icon><DataAnalysis /></el-icon>
+          <template #title>报表中心</template>
+        </el-menu-item>
+
+        <el-menu-item index="/import">
+          <el-icon><Upload /></el-icon>
+          <template #title>数据导入</template>
+        </el-menu-item>
+
         <el-menu-item index="/settings">
           <el-icon><Setting /></el-icon>
           <template #title>系统设置</template>
