@@ -11,7 +11,7 @@ USE eims;
 -- ============================================
 CREATE TABLE IF NOT EXISTS sys_role (
     id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '角色ID',
-    role_name VARCHAR(64) NOT NULL COMMENT '角色名称',
+    role_name VARCHAR(128) NOT NULL COMMENT '角色名称',
     role_code VARCHAR(64) NOT NULL UNIQUE COMMENT '角色编码',
     description VARCHAR(256) COMMENT '角色描述',
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
